@@ -1,5 +1,5 @@
 A program that combines the first 4 bits of the value in address memory A0 with the last 4 bits of the value in memory A1, resulting in an 8-bit value, and writes the value to memory A2.
---------------------------------------------------
+---------------
 load R0, [160]
 load R1, [161]
 load R8, [90h]
