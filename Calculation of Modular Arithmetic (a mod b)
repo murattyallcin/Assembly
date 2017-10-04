@@ -1,0 +1,70 @@
+;İstenilen değeri a -> [90h], b -> [91h] bellek adreslerine en alt satırdan girebilirsiniz.
+;Değerler rastgele (9 mod 4) girilmiştir.
+;-----------------------------------------------------------------------------------------
+		load R0, [93h]
+		load R1, [90h]
+		load R2, [91h]
+		jmpLE R2<=R0, sifir
+		jmpLE R1<=R0, negatif
+
+		load R0, [91h]
+		load R1, [90h]
+basa_don:	jmpLE R1<=R0, kucuk_esit
+
+		load R0, [90h]
+		load R1, [91h]
+		move R2,R1
+dongu:		addi R1,R1,R2
+		jmpLE R1<=R0, dongu
+
+		move R0,R1
+		load R1, [91h]
+		load R2, [92h]
+		load R3, [93h]
+dongu_2:	addi R1,R1,R2
+		addi R3,R3,R2
+		jmpEQ R1=R0, devam
+		jmp dongu_2
+
+devam:		move R1,R3
+		load R0, [90h]
+
+		load R2, [92h]
+		load R3, [93h]
+dongu_3:	addi R1,R1,R2
+		addi R3,R3,R2
+		jmpEQ R1=R0, sonuc
+		jmp dongu_3	
+
+sonuc:		move RF,R3
+		halt
+
+kucuk_esit:	jmpEQ R1=R0, sifir
+		move RF,R1
+		halt
+
+sifir:		load RF,00000000b
+		halt
+
+negatif:	load R0, [90h]
+		load R1, [91h]
+		load R2, [93h]
+dongu_4:	addi R0,R0,R1
+		jmpLE R1<=R0, devam_2
+		jmp dongu_4
+
+devam_2:	load R2, [92h]
+		load R3, [93h]
+dongu_5:	addi R1,R1,R2
+		addi R3,R3,R2
+		jmpEQ R1=R0, duzenleme
+		jmp dongu_5
+
+duzenleme:	load R0, [91h]
+		move R1,R3
+		jmp basa_don
+
+org 90h
+db 9,4,1,0
+;-----------------------------------------------------------------------------------------
+;Mod işlemi "a" nın negatif olduğu durumlar için de sonuç vermektedir.
