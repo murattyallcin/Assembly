@@ -1,7 +1,11 @@
-A program that combines the first 4 bits of the value in address memory A0 with the last 4 bits of the value in memory A1, resulting in an 8-bit value, and writes the value to memory A2.
----------------
-load R0, [160]
-load R1, [161]
+;A program that combines
+;the first 4 bits of the value in A0 with
+;the last 4 bits of the value in A1,
+;resulting in an 8-bit value and,
+;writes the value to memory A2.
+;------------------------------
+load R0, [$A0]
+load R1, [$A1]
 load R8, [90h]
 load R9, [91h]
 
@@ -9,10 +13,16 @@ and R2,R0,R8
 and R3,R1,R9
 or R5,R2,R3
 
-store R5, [162]
+store R5, [$A2]
 
 org 90h
 db 240,15
 
 org 160
 db 21,108
+;------------------------------
+;(240) -> F0
+;(15) -> 0F
+;(21) -> 15
+;(108) -> 6C
+;Result -> (1)5 - 6(C) -> 1C
